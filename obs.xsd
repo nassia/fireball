@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+
+
+<!-- XML root element -->
+<xs:element name="vfo">
+	<xs:complexType>
+	<xs:sequence>
+		<xs:element name="recaptcha" type="recaptchaInfo"/>
+		<xs:element name="obs" type="obsInfo"/>
+	</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+
+
+<!-- Recaptcha information -->
+<xs:complexType name="recaptchaInfo">
+	<xs:sequence>
+		<xs:element name="recaptcha_challenge_field" type="xs:string"/>
+		<xs:element name="recaptcha_response_field" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: split by subject -->
+<xs:complexType name="obsInfo">
+	<xs:sequence>
+		<xs:element name="when" type="whenInfo"/>
+		<xs:element name="where" type="whereInfo"/>
+		<xs:element name="loc" type="locInfo"/>
+		<xs:element name="what" type="whatInfo"/>
+		<xs:element name="fireball_other" type="otherInfo"/>
+		<xs:element name="who" type="whoInfo"/>
+		<xs:element name="referrer" type="referrerInfo"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: when was the fireball observed? (Includes restrictions) -->
+<xs:complexType name="whenInfo">
+	<xs:sequence>
+		<xs:element name="when_year">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="1970"/>
+					<xs:maxInclusive value="2040"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_month">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="12"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_day">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="31"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_hour">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="23"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_minute">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="59"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_second">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="0"/>
+					<xs:maxInclusive value="59"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="when_offset">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="-12"/>
+					<xs:maxInclusive value="12"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: where was the fireball observed? -->
+<xs:complexType name="whereInfo">
+	<xs:sequence>
+		<xs:element name="where_latitude" type="xs:decimal"/>
+		<xs:element name="where_longitude" type="xs:decimal"/>
+		<xs:element name="where_location" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: where in the sky was the fireball observed? (Includes restrictions) -->
+<xs:complexType name="locInfo">
+	<xs:sequence>
+		<xs:element name="loc_startdirection">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+				    <xs:enumeration value="0"/>
+				    <xs:enumeration value="45"/>
+				    <xs:enumeration value="90"/>
+					<xs:enumeration value="135"/>
+				    <xs:enumeration value="180"/>
+				    <xs:enumeration value="225"/>
+					<xs:enumeration value="270"/>
+				    <xs:enumeration value="315"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="loc_startheight">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+				    <xs:enumeration value="0"/>
+				    <xs:enumeration value="15"/>
+				    <xs:enumeration value="30"/>
+					<xs:enumeration value="45"/>
+				    <xs:enumeration value="60"/>
+				    <xs:enumeration value="75"/>
+					<xs:enumeration value="90"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="loc_enddirection">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+				    <xs:enumeration value="0"/>
+				    <xs:enumeration value="45"/>
+				    <xs:enumeration value="90"/>
+					<xs:enumeration value="135"/>
+				    <xs:enumeration value="180"/>
+				    <xs:enumeration value="225"/>
+					<xs:enumeration value="270"/>
+				    <xs:enumeration value="315"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="loc_endheight">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+				    <xs:enumeration value="0"/>
+				    <xs:enumeration value="15"/>
+				    <xs:enumeration value="30"/>
+					<xs:enumeration value="45"/>
+				    <xs:enumeration value="60"/>
+				    <xs:enumeration value="75"/>
+					<xs:enumeration value="90"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: what did the fireball look like? (Includes restrictions) -->
+<xs:complexType name="whatInfo">
+	<xs:sequence>
+		<xs:element name="what_mag" type="decimal-or-empty"/>
+		<xs:element name="what_mag_est">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+				    <xs:enumeration value="Unknown"/>
+				    <xs:enumeration value="Brighter"/>
+				    <xs:enumeration value="FullMoon"/>
+				    <xs:enumeration value="Fainter"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="what_duration" type="decimal-or-empty"/>
+		<xs:element name="what_color" type="xs:string"/>
+		<xs:element name="what_fragmentation">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+				    <xs:enumeration value="Unknown"/>
+				    <xs:enumeration value="Yes"/>
+				    <xs:enumeration value="No"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="what_train" type="decimal-or-empty"/>
+		<xs:element name="what_vel" type="decimal-or-empty"/>
+		<xs:element name="what_vel_est">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Unknown"/>
+				    <xs:enumeration value="0"/>
+				    <xs:enumeration value="1"/>
+				    <xs:enumeration value="2"/>
+					<xs:enumeration value="3"/>
+				    <xs:enumeration value="4"/>
+				    <xs:enumeration value="5"/>
+					<xs:enumeration value="6"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="what_sound">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+				    <xs:enumeration value="Unknown"/>
+				    <xs:enumeration value="None"/>
+				    <xs:enumeration value="Sharp"/>
+				    <xs:enumeration value="Smooth"/>
+				    <xs:enumeration value="Staccato"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="what_interval" type="decimal-or-empty"/>
+		<xs:element name="what_general" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: extra remarks concerning the fireball? -->
+<xs:complexType name="otherInfo">
+	<xs:sequence>
+		<xs:element name="fireball_remarks" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Observation information: who observed the fireball? (Includes restrictions) -->
+<xs:complexType name="whoInfo">
+	<xs:sequence>
+		<xs:element name="who_firstname">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="who_lastname">
+			<xs:simpleType>
+				<xs:restriction base = "xs:string">
+					<xs:minLength value = "2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element> 
+		<xs:element name="who_country">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="who_email">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="who_phone" type="xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Information on the referring organization (Includes restrictions) -->
+<xs:complexType name="referrerInfo">
+	<xs:sequence>
+		<xs:element name="code">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="10"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="language">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+	</xs:sequence>
+</xs:complexType>
+
+
+
+<!-- Extra type: optional decimal values that aren't filled in cause an error when using just xs:decimal -->
+<xs:simpleType name="decimal-or-empty">
+  <xs:union memberTypes="xs:decimal empty" />
+</xs:simpleType>
+
+<xs:simpleType name="empty">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="" />
+  </xs:restriction>
+</xs:simpleType>
+
+
+
+</xs:schema>
